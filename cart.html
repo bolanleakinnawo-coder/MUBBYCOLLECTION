@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart — MUBBY COLLECTION Timepieces</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      .cart-empty {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--gray);
+      }
+      .cart-empty i {
+        font-size: 48px;
+        color: var(--g-500);
+        margin-bottom: 20px;
+        display: block;
+      }
+      .cart-empty h3 {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 300;
+        margin-bottom: 14px;
+        color: var(--white);
+      }
+      .cart-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .checkout-btn {
+        padding: 16px 40px;
+        background: var(--accent);
+        border: none;
+        color: var(--g-900);
+        font-family: var(--font-body);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+      .checkout-btn:hover {
+        background: var(--g-300);
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="logo">VERD<span>ANT</span></div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Collection</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <div class="cart-icon">
+            <a href="cart.html">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span id="cart-count" class="cart-count">0</span>
+            </a>
+          </div>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Collection</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+    </header>
+
+    <section class="cart-container">
+      <h2>Your Cart</h2>
+      <div id="cartItems"></div>
+      <h3>Total: <span id="cartTotal">₦0</span></h3>
+      <div class="cart-actions" id="cartActions" style="display: none">
+        <a href="shop.html" class="btn outline">← Continue Shopping</a>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col brand-col">
+          <div class="footer-logo">VERD<span>ANT</span></div>
+          <p>
+            Luxury timepieces for those who value precision, craft, and enduring
+            style.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Collection</a>
+          <a href="#">Our Craft</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#">Shipping & Returns</a>
+          <a href="#">Watch Care</a>
+          <a href="#">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <div class="footer-icons">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-pinterest"></i>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 MUBBY COLLECTION Timepieces. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("navbar")
+          .classList.toggle("scrolled", window.scrollY > 60);
+      });
+      document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.toggle("open");
+      });
+
+      function getCart() {
+        return JSON.parse(localStorage.getItem("mubby collectionCart") || "[]");
+      }
+      function saveCart(cart) {
+        localStorage.setItem("mubby collectionCart", JSON.stringify(cart));
+      }
+      function parsePrice(str) {
+        return parseInt(str.replace(/[₦,]/g, "")) || 0;
+      }
+      function fmtPrice(n) {
+        return "₦" + n.toLocaleString("en-NG");
+      }
+
+      function renderCart() {
+        const cart = getCart();
+        const container = document.getElementById("cartItems");
+        const totalEl = document.getElementById("cartTotal");
+        const actions = document.getElementById("cartActions");
+        const countEl = document.getElementById("cart-count");
+
+        const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+        countEl.textContent = totalItems;
+
+        if (!cart.length) {
+          container.innerHTML = `
+          <div class="cart-empty">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <h3>Your cart is empty</h3>
+            <p>Discover our collection and find your perfect timepiece.</p>
+            <br/><a href="shop.html" class="btn primary" style="margin-top:16px">Browse Collection</a>
+          </div>`;
+          totalEl.textContent = "₦0";
+          actions.style.display = "none";
+          return;
+        }
+
+        actions.style.display = "flex";
+        let total = 0;
+        container.innerHTML = cart
+          .map((item, idx) => {
+            const itemTotal = parsePrice(item.price) * item.qty;
+            total += itemTotal;
+            return `
+          <div class="cart-item">
+            <img src="${item.img}" width="90" height="90" style="border-radius:8px;object-fit:cover" alt="${item.name}"/>
+            <div>
+              <h5>${item.name}</h5>
+              <div class="qty-controls">
+                <button onclick="changeQty(${idx}, -1)">-</button>
+                <span>${item.qty}</span>
+                <button onclick="changeQty(${idx}, 1)">+</button>
+              </div>
+              <small style="color:var(--gray)">${item.price} each</small>
+            </div>
+            <strong>${fmtPrice(itemTotal)}</strong>
+            <button onclick="removeItem(${idx})"><i class="fa-solid fa-trash"></i></button>
+          </div>`;
+          })
+          .join("");
+        totalEl.textContent = fmtPrice(total);
+      }
+
+      function changeQty(idx, delta) {
+        const cart = getCart();
+        cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+        saveCart(cart);
+        renderCart();
+      }
+
+      function removeItem(idx) {
+        const cart = getCart();
+        cart.splice(idx, 1);
+        saveCart(cart);
+        renderCart();
+      }
+
+      renderCart();
+    </script>
+  </body>
+</html>

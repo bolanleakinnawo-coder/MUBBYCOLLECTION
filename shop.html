@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collection — MUBBY COLLECTION Timepieces</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="navbar" id="navbar">
+      <div class="nav-container">
+        <div class="logo">VERD<span>ANT</span></div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html" class="active">Collection</a></li>
+          <li><a href="#">Craft</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="nav-icons">
+          <div class="cart-icon">
+            <a href="cart.html">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span id="cart-count" class="cart-count">0</span>
+            </a>
+          </div>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-solid fa-bars menu-toggle" id="menuToggle"></i>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Collection</a>
+        <a href="#">Craft</a>
+        <a href="#">Contact</a>
+      </div>
+    </header>
+
+    <!-- Shop hero banner -->
+    <div class="shop-hero-banner">
+      <div class="shop-hero-inner">
+        <p class="section-eyebrow">OUR FULL RANGE</p>
+        <h1>The Collection</h1>
+      </div>
+    </div>
+
+    <section class="shop-page">
+      <aside class="shop-sidebar">
+        <h3>Categories</h3>
+        <button
+          onclick="selectCategory('all')"
+          class="category-btn active"
+          data-category="All"
+        >
+          All Watches
+        </button>
+        <button
+          onclick="selectCategory('Dress')"
+          class="category-btn"
+          data-category="Dress"
+        >
+          Dress Watches
+        </button>
+        <button
+          onclick="selectCategory('Diver')"
+          class="category-btn"
+          data-category="Diver"
+        >
+          Diver
+        </button>
+        <button
+          onclick="selectCategory('Chronograph')"
+          class="category-btn"
+          data-category="Chronograph"
+        >
+          Chronograph
+        </button>
+        <button
+          onclick="selectCategory('Sport')"
+          class="category-btn"
+          data-category="Sport"
+        >
+          Sport
+        </button>
+        <button
+          onclick="selectCategory('Tourbillon')"
+          class="category-btn"
+          data-category="Tourbillon"
+        >
+          Tourbillon
+        </button>
+        <div id="featured-pro"></div>
+      </aside>
+
+      <section class="products-gridss">
+        <div id="category-title"><h1>All Watches</h1></div>
+        <div id="each-category"></div>
+      </section>
+    </section>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <span onclick="closeModal()" class="close-btn">&times;</span>
+        <div class="modal-left">
+          <img id="modal-img" src="" alt="Product" />
+        </div>
+        <div class="modal-right">
+          <h2 id="modal-name"></h2>
+          <p id="modal-description"></p>
+          <p class="modal-price" id="modal-price">₦0</p>
+          <div class="quantity-selector">
+            <button onclick="decrement()">-</button>
+            <input type="text" id="quantity" value="1" readonly />
+            <button onclick="increment()">+</button>
+          </div>
+          <button type="button" onclick="addToCart()" class="add-cart-btn">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-col brand-col">
+          <div class="footer-logo">VERD<span>ANT</span></div>
+          <p>
+            Luxury timepieces for those who value precision, craft, and enduring
+            style.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Collection</a>
+          <a href="#">Our Craft</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#">Shipping & Returns</a>
+          <a href="#">Watch Care</a>
+          <a href="#">FAQ</a>
+          <a href="#">Warranty</a>
+        </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <div class="footer-icons">
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-pinterest"></i>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 MUBBY COLLECTION Timepieces. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script>
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("navbar")
+          .classList.toggle("scrolled", window.scrollY > 60);
+      });
+      document.getElementById("menuToggle").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.toggle("open");
+      });
+
+      // Sidebar category active state
+      document.querySelectorAll(".category-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".category-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        });
+      });
+
+      // Fallback products if index.js products aren't loaded
+      const fallbackProducts = [
+        {
+          name: "Mubby Collection Classic I",
+          price: "₦285,000",
+          category: "Dress",
+          description:
+            "Refined elegance with a green sunburst dial and hand-stitched alligator strap.",
+          img: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&fit=crop",
+        },
+        {
+          name: "Forest Diver Pro",
+          price: "₦420,000",
+          category: "Diver",
+          description:
+            "300m water resistance, unidirectional bezel, and luminous indices for deep adventurers.",
+          img: "https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500&fit=crop",
+        },
+        {
+          name: "Moss Chronograph",
+          price: "₦560,000",
+          category: "Chronograph",
+          description:
+            "1/10-second precision chronograph with panda sub-dials on a matte green case.",
+          img: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=500&fit=crop",
+        },
+        {
+          name: "Canopy Tourbillon",
+          price: "₦1,200,000",
+          category: "Tourbillon",
+          description:
+            "Flying tourbillon visible through the skeleton dial. A masterpiece of horological art.",
+          img: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=500&fit=crop",
+        },
+        {
+          name: "Fern Sport Auto",
+          price: "₦310,000",
+          category: "Sport",
+          description:
+            "Automatic movement inside a ceramic-coated case. Built for every pursuit.",
+          img: "https://images.unsplash.com/photo-1601539698850-88a3c9bf9e5c?w=500&fit=crop",
+        },
+        {
+          name: "Mubby Collection Classic II",
+          price: "₦340,000",
+          category: "Dress",
+          description:
+            "Slim profile with a textured green dial and rose gold applied hour markers.",
+          img: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=500&fit=crop",
+        },
+        {
+          name: "Canopy GMT",
+          price: "₦680,000",
+          category: "Sport",
+          description:
+            "Dual time-zone display with a bi-directional bezel for the globe-trotter.",
+          img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&fit=crop",
+        },
+        {
+          name: "Moss Flyback",
+          price: "₦720,000",
+          category: "Chronograph",
+          description:
+            "Flyback reset mechanism with a lacquered forest green dial.",
+          img: "https://images.unsplash.com/photo-1606813902879-7a3e34cc66c8?w=500&fit=crop",
+        },
+      ];
+
+      let allProducts = fallbackProducts;
+      let currentProduct = null;
+      let qty = 1;
+
+      function renderProducts(list) {
+        const container = document.getElementById("each-category");
+        container.innerHTML = list
+          .map(
+            (p) => `
+        <div class="product-card revealed" onclick="openModal('${encodeURIComponent(JSON.stringify(p))}')">
+          <div class="card-img-wrap">
+            <img src="${p.img}" alt="${p.name}" loading="lazy"/>
+            <div class="card-overlay"><span>Quick View</span></div>
+          </div>
+          <div class="card-info">
+            <span class="card-cat">${p.category}</span>
+            <h3>${p.name}</h3>
+            <div class="card-bottom">
+              <p class="card-price">${p.price}</p>
+              <button class="card-cart-btn" onclick="event.stopPropagation()"><i class="fa-solid fa-bag-shopping"></i></button>
+            </div>
+          </div>
+        </div>
+      `,
+          )
+          .join("");
+      }
+
+      function selectCategory(cat) {
+        const titleEl = document.getElementById("category-title");
+        const filtered =
+          cat === "all"
+            ? allProducts
+            : allProducts.filter((p) =>
+                p.category.toLowerCase().includes(cat.toLowerCase()),
+              );
+        titleEl.innerHTML = `<h1>${cat === "all" ? "All Watches" : cat}</h1>`;
+        renderProducts(filtered);
+      }
+
+      function openModal(encoded) {
+        const p = JSON.parse(decodeURIComponent(encoded));
+        currentProduct = p;
+        qty = 1;
+        document.getElementById("modal-img").src = p.img;
+        document.getElementById("modal-name").textContent = p.name;
+        document.getElementById("modal-description").textContent =
+          p.description || "";
+        document.getElementById("modal-price").textContent = p.price;
+        document.getElementById("quantity").value = 1;
+        const modal = document.getElementById("product-modal");
+        modal.style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("product-modal").style.display = "none";
+      }
+
+      function increment() {
+        qty = Math.min(qty + 1, 10);
+        document.getElementById("quantity").value = qty;
+      }
+      function decrement() {
+        qty = Math.max(qty - 1, 1);
+        document.getElementById("quantity").value = qty;
+      }
+
+      function addToCart() {
+        if (!currentProduct) return;
+        let cart = JSON.parse(
+          localStorage.getItem("mubby collectionCart") || "[]",
+        );
+        const existing = cart.find((i) => i.name === currentProduct.name);
+        if (existing) existing.qty += qty;
+        else cart.push({ ...currentProduct, qty });
+        localStorage.setItem("mubby collectionCart", JSON.stringify(cart));
+        document.getElementById("cart-count").textContent = cart.reduce(
+          (s, i) => s + i.qty,
+          0,
+        );
+        closeModal();
+      }
+
+      window.addEventListener("click", (e) => {
+        if (e.target === document.getElementById("product-modal")) closeModal();
+      });
+
+      renderProducts(allProducts);
+
+      // Cart count from storage
+      const saved = JSON.parse(
+        localStorage.getItem("mubby collectionCart") || "[]",
+      );
+      document.getElementById("cart-count").textContent = saved.reduce(
+        (s, i) => s + i.qty,
+        0,
+      );
+    </script>
+  </body>
+</html>
